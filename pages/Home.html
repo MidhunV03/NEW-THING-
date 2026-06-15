@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoursePath</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/Home.css">
+</head>
+
+<body class="body_col">
+
+    <nav class="navbar navbar-expand-lg nav_bg_color sticky-top">
+        <div class="navbar-brand text-light">
+            <img src="../assets/learning.png" width="35px">
+            <h4 class="d-inline">Course<span class="text-black">P</span>ath</h4>
+        </div>
+        <div class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav_items">
+            <span class="navbar-toggler-icon"></span>
+        </div>
+        <div class="collapse navbar-collapse " id="nav_items">
+            <div class="navbar-nav ms-auto ">
+                <div class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn border" id="theme_btn">🌙</button>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn border text-light" data-bs-toggle="modal" data-bs-target="#loginmodal">LOGIN</button>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-link">
+                        <button class="btn border text-light" data-bs-toggle="modal" data-bs-target="#signinmodal">SIGNIN</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </nav>
+    
+    <div class="modal" id="loginmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>LOG IN</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label fw-semibold ">Email</label>
+                    <input class="form-control mb-3" type="email" placeholder="Enter Email" id="loginemail">
+                    <label class="form-label fw-semibold">Password</label>
+                    <input class="form-control mb-3" placeholder="Enter Password"  id="loginpassword">
+                    <label class="form-label fw-semibold">ROLE</label>
+                    <select class="form-select mb-3" id="loginrole">
+                        <option value=" ">ROLE</option>
+                        <option value="Mentor">MENTOR</option>
+                        <option value="Student">STUDENT</option>
+                    </select>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button class="btn bg_col" id="loginbtn">Submit</button>
+                        <button class="btn bg_col" id="loginresetbtn" >Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="signinmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>SIGN IN</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label fw-semibold" >Roll Number</label>
+                    <input class="form-control mb-3" type="text" id="signinrollnum" placeholder="Enter Roll Number (23BCS***)">
+                    <h6 id="signinrollnumerror" class="fs-6 text-danger"></h6>
+                    <label class="form-label fw-semibold">Name</label>
+                    <input class="form-control mb-3" id="signinname" type="text" placeholder="Enter name">
+                    <h6 id="signinnameerror" class="fs-6 text-danger"></h6>
+                    <label class="form-label fw-semibold">Email </label>
+                    <input class="form-control mb-3" type="email" id="signinemail" placeholder="Enter Email">
+                    <h6 id="signinemailerror" class="fs-6 text-danger"></h6>
+                    <label class="form-label fw-semibold">Password </label>
+                    <input class="form-control mb-3" type="password"  id="signinpassword" placeholder="Enter Password">
+                    <h6 id="signinpassworderror" class="fs-6 text-danger"></h6>
+                    <label class="form-label fw-semibold" >Confirm Password </label>
+                    <input class="form-control mb-3" type="password" id="signincfnpassword" placeholder="Repeat Password">
+                    <h6 id="signincfnpassworderror" class="fs-6 text-danger"></h6>
+                    <label class="form-label fw-semibold">Gender </label>
+                    <!-- <select class="form-select mb-3" id="signingender">
+                        <option value=" ">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select> -->
+                    <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
+                        <label class="form-check-label" for="male">Male</label>
+                        
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                        <label class="form-check-label" for="female">Female</label>
+                    </div>
+                    </div>
+                    <h6 id="signingendererror" class="fs-6 text-danger"></h6>                
+                    <label class="form-label fw-semibold">Department </label>
+                    <select class="form-select mb-3" id="signindepartment">
+                        <option value=" ">Department</option>
+                        <option value="IT">IT</option>
+                        <option value="Finance">FINANCE</option>
+                    </select>
+                    <h6 id="signindepartmenterror" class="fs-6 text-danger"></h6>
+                    <div class="d-flex justify-content-end gap-3">
+                        <button class="btn bg_col" id="signinSubmitbtn">Submit</button>
+                        <button class="btn bg_col" id="signinResetbtn">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row container-fluid " style="height: 670px;" >
+        <div class="col-6 text-center mt-5 w-50 d-flex justify-content-center align-items-center">
+            <div class="w-50 d-flex flex-column ">
+                <h1 id="Brand"class="d-flex cls_letter_spacing" >Course</h1>
+                <h1 id="Brand" class="d-flex cls_letter_spacing" ><span class="text-light">P</span>ath</h1>
+                <p class="fs-4 d-flex cls_letter_spacing "  >Place to learn....</p>
+            </div>
+        </div>
+        <div class="col-6 d-flex justify-content-center">
+            <img src="../assets/education.svg" alt="svg" width="500px">
+        </div>
+    </div>
+
+    <div class="row container-fluid d-flex justify-content-center gap-5">
+        <h1 class="text-center">THINGS WE PROVIDE</h1>
+        <div class="col-md-3">
+            <div class="card bg-card rounded-3" style="height: 300px;">
+                <div class="card-header">
+                    <h5 class="text-center">📚 Comprehensive Courses</h5>
+                </div>
+                <div class="card-body">
+                    <p>Access a wide range of courses designed by experienced mentors. Learn
+        programming, web development, databases, and other in-demand technologies
+        through structured lessons and practical examples.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-card rounded-3" style="height: 300px;">
+                <div class="card-header">
+                    <h5 class="text-center">🎯 Personalized Learning Path</h5>
+                </div>
+                <div class="card-body">
+                    <p>        Follow a customized learning journey based on your interests and skill
+        level. Track your progress, complete assignments, and achieve your goals
+        with a step-by-step roadmap.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-card rounded-3" style="height: 300px;">
+                <div class="card-header">
+                    <h5 class="text-center">🚀 Career & Skill Development</h5>
+                </div>
+                <div class="card-body">
+                    <p>        Build job-ready skills with hands-on projects, coding challenges, and
+        certifications. Prepare for placements and interviews while strengthening
+        your technical and problem-solving abilities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+    <h1 class="text-center mb-4">WHY CHOOSE COURSEPATH?</h1>
+
+    <div class="accordion" id="courseAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course1">
+                    👨‍🏫 Mentor Course Management
+                </button>
+            </h2>
+            <div id="course1" class="accordion-collapse collapse show"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    Mentors can create, update, and manage courses with detailed
+                    descriptions, learning materials, and structured content to
+                    provide students with an organized learning experience.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course2">
+                    🎓 Easy Student Enrollment
+                </button>
+            </h2>
+            <div id="course2" class="accordion-collapse collapse"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    Students can browse available courses, enroll with a single
+                    click, and access all learning resources from their personal
+                    dashboard anytime.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course3">
+                    📚 Structured Learning Experience
+                </button>
+            </h2>
+            <div id="course3" class="accordion-collapse collapse"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    Enrolled students can follow a structured learning path,
+                    complete lessons in sequence, and build their knowledge step
+                    by step through organized course content.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course4">
+                    📊 Mentor Progress Monitoring
+                </button>
+            </h2>
+            <div id="course4" class="accordion-collapse collapse"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    Mentors can monitor enrolled students, track their learning
+                    progress, and evaluate course completion to provide better
+                    guidance and support.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course5">
+                    🔐 Secure Role-Based Access
+                </button>
+            </h2>
+            <div id="course5" class="accordion-collapse collapse"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    The platform provides separate dashboards for mentors and
+                    students, ensuring that each user can access only the features
+                    and information relevant to their role.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#course6">
+                    ⚡ Simple & User-Friendly Interface
+                </button>
+            </h2>
+            <div id="course6" class="accordion-collapse collapse"
+                data-bs-parent="#courseAccordion">
+                <div class="accordion-body">
+                    Designed with a clean and intuitive interface, CoursePath
+                    makes it easy for mentors to manage courses and for students
+                    to learn without unnecessary complexity.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    <footer class="d-flex justify-content-center mt-5 footer-col text-light">
+        <div class="d-flex flex-column justify-content-center w-50 text-center ">
+            <h6 class="cls_letter_spacing">@ Created 2026 by Midhun V</h6>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="../scripts/Home.js"></script>
+</body>
+</html>
