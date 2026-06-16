@@ -76,6 +76,10 @@ body{
 #Brand{
     font-size: 100px;
 }
+.text_col
+{
+    color: var(--text-color);
+}
 
 .dark-theme .theme-icon {
   filter: invert(1);

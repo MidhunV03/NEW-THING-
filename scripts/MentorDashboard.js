@@ -46,7 +46,10 @@ async function fetchCourses() {
                 <div class = "row">
                 <div class="col-10">
                     <h3 class="fw-bold">📚 ${element.title}</h3>
-                    <p class="text-muted">🕒 ${element.duration} Months</p>
+                    <p class="">🕒 ${element.duration} Months</p>         
+                    <span class="badge text_col mb-2 fs-6">
+                        🏢 ${element.department}
+                    </span>
                     <p class="card-text">${element.description}</p>
                 </div>
                 <div class = "col-2 d-flex flex-column justify-content-start">
@@ -60,8 +63,7 @@ async function fetchCourses() {
                         Edit Details
                     </button>
                 </div>
-            </div>
-            
+            </div>  
         `;
         CourseListContainer.appendChild(courseCard);
         });
@@ -354,7 +356,7 @@ async function fetchMentor() {
         div.classList.add('row','g-4')
         div.innerHTML = `
         <div class="col-6 d-flex justify-content-center">
-            <img src="../assets/woman.png" width="50%" height="100%">
+            <img src="../assets/woman.png" width="50%" height="100%" class ="theme-icon">
         </div> 
         <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
             <h2>${data[0].name}</h2>
@@ -557,57 +559,60 @@ async function refreshTab() {
     }
 }
 
-const filterVal = document.getElementById("filterVal").value();
+const departmentFilter = document.getElementById("departmentFilter");
+
+departmentFilter.addEventListener("change", filterCourses);
 
 async function filterCourses() {
-    
-    try
-    {
-        if(filterVal === "FINANCE")
-        {
-            const CourseListContainer = document.getElementById("CourseListContainer")
-            CourseListContainer.innerHTML = "";         
-            
-            const response = await fetch(`${CoursesAPI}?isDeleted=false&department=FINANCE`)
-            const data = await response.json();
-            
-            data.forEach(element => {
-            const courseCard = document.createElement('div')
+
+    const filterVal = departmentFilter.value;
+
+    const CourseListContainer = document.getElementById("CourseListContainer");
+    CourseListContainer.innerHTML = "";
+
+    try {
+
+        const response = await fetch(
+            `${CoursesAPI}?isDeleted=false&department=${filterVal}`
+        );
+
+        const data = await response.json();
+
+        data.forEach(element => {
+
+            const courseCard = document.createElement("div");
             courseCard.classList.add("col-6", "mb-4");
-            courseCard.innerHTML = 
-            `   
-                <div class="card card-custom shadow rounded-4 h-100">
-                    <div class="card-body">
-                    <div class = "row">
-                    <div class="col-10">
-                        <h3 class="fw-bold">📚 ${element.title}</h3>
-                        <p class="text-muted">🕒 ${element.duration} Months</p>
-                        <p class="card-text">${element.description}</p>
-                    </div>
-                    <div class = "col-2 d-flex flex-column justify-content-start">
-                        <button class = "btn btn-danger m-0 " style = "width : 75%" onclick ="deleteCourse('${element.id}')"><i class="fa-solid fa-delete-left"></i></button>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-                        <button class="btn btn-custom" data-bs-toggle = "modal" data-bs-target="#editCourseModal"
-                                                onclick="openEditCourseModel('${element.id}', '${element.title}', '${element.duration}', '${element.department}', '${element.description}')">
-                            Edit Details
-                        </button>
-                    </div>
+
+        courseCard.innerHTML = 
+        `   
+            <div class="card card-custom shadow rounded-4 h-100">
+                <div class="card-body">
+                <div class = "row">
+                <div class="col-10">
+                    <h3 class="fw-bold">📚 ${element.title}</h3>
+                    <p class="">🕒 ${element.duration} Months</p>         
+                    <span class="badge text_col mb-2 fs-6">
+                        🏢 ${element.department}
+                    </span>
+                    <p class="card-text">${element.description}</p>
                 </div>
-                
-            `;
+                <div class = "col-2 d-flex flex-column justify-content-start">
+                    <button class = "btn btn-danger m-0 " style = "width : 75%" onclick ="deleteCourse('${element.id}')"><i class="fa-solid fa-delete-left"></i></button>
+                </div>
+                </div>
+                </div>
+                <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+                    <button class="btn btn-custom" data-bs-toggle = "modal" data-bs-target="#editCourseModal"
+                                            onclick="openEditCourseModel('${element.id}', '${element.title}', '${element.duration}', '${element.department}', '${element.description}')">
+                        Edit Details
+                    </button>
+                </div>
+            </div>  
+        `;
             CourseListContainer.appendChild(courseCard);
-            });
+        });
 
-        }
+    } catch (error) {
+        toastr.error(error);
     }
-    catch(error)
-    {
-        toastr.error(error)
-    }
-
 }
-
-document.getElementById('filterIT').addEventListener('clc')
