@@ -59,15 +59,15 @@ async function loginvalidate(e) {
                     window.location.assign("MentorDashboard.html")
                 }, 3060);
                 }
-                else if (role === "Student")
-                {
-                    localStorage.setItem("StudentEmail",email);
-                    localStorage.setItem("Role",role);
+            else if(role === "Student")
+            {
+                localStorage.setItem("StudentEmail",email);
+                localStorage.setItem("Role",role);
 
-                    setTimeout(() => {
-                        window.location.assign("StudentDashboard.html")
-                    }, 3060);
-                }
+                setTimeout(() => {
+                    window.location.assign("StudentDashboard.html")
+                }, 3060);
+            }
             }
             else
             {

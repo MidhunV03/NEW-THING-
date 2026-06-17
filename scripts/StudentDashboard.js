@@ -62,7 +62,7 @@ async function fetchCourses() {
         CourseListContainer.appendChild(courseCard);
         });
         fetchCount();
-        // fetchMentor();
+        fetchMentor();
     }
     catch(error)
     {
@@ -72,6 +72,56 @@ async function fetchCourses() {
 // fetchCourses();
 refreshTab();
 
+async function fetchMentor() {
+
+    const studentDetailsCointainer = document.getElementById("studentDetailsCointainer");
+    studentDetailsCointainer.innerHTML =  ``;
+    try
+    {
+        const response = await fetch(`${StudentsAPI}?email=${currentUser}`);
+        const data = await response.json();
+
+        if(data[0].gender === "Male")
+        {
+        const div =document.createElement('div');
+        div.classList.add('row','g-4')
+        div.innerHTML = `
+        <div class="col-6 d-flex justify-content-center">
+            <img src="../assets/male.png" width="50%" height="100%" class ="theme-icon">
+        </div> 
+        <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
+            <h2>${data[0].name}</h2>
+            <h5>${data[0].department}</h5>
+            <button class=" btn btn-custom w-50">View Details</button>
+        </div>
+
+        `;
+        studentDetailsCointainer.appendChild(div);
+        }
+        else
+        {
+        const div =document.createElement('div');
+        div.classList.add('row','g-4')
+        div.innerHTML = `
+        <div class="col-6 d-flex justify-content-center">
+            <img src="../assets/woman.png" width="50%" height="100%" class ="theme-icon">
+        </div> 
+        <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
+            <h2>${data[0].name}</h2>
+            <h5>${data[0].department}</h5>
+            <button class=" btn btn-custom w-50">View Details</button>
+        </div>
+
+        `;
+        studentDetailsCointainer.appendChild(div);
+        }
+
+    }
+    catch(error)
+    {
+        toastr.error(error)
+    }
+}
 
 async function enrollCourse(id) 
 {
@@ -117,8 +167,6 @@ async function enrollCourse(id)
 
         const status = "not yet started";
         console.log(startDateFormatted);
-
-
 
         // console.log(courseId);
         // console.log(courseTitle);
@@ -204,57 +252,6 @@ async function fetchCount()
 }
 // fetchCount();
 
-async function fetchMentor() {
-
-    const mentorDetailsCointainer = document.getElementById("mentorDetailsCointainer");
-    mentorDetailsCointainer.innerHTML =  ``;
-    try
-    {
-        const response = await fetch(`${MentorAPI}?email=${currentUser}`);
-        const data = await response.json();
-
-        if(data[0].gender === "Male")
-        {
-        const div =document.createElement('div');
-        div.classList.add('row','g-4')
-        div.innerHTML = `
-        <div class="col-6 d-flex justify-content-center">
-            <img src="../assets/male.png" width="50%" height="100%" class ="theme-icon">
-        </div> 
-        <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
-            <h2>${data[0].name}</h2>
-            <h5>${data[0].department}</h5>
-            <button class=" btn btn-custom w-50">View Details</button>
-        </div>
-
-        `;
-        mentorDetailsCointainer.appendChild(div);
-        }
-        else
-        {
-        const div =document.createElement('div');
-        div.classList.add('row','g-4')
-        div.innerHTML = `
-        <div class="col-6 d-flex justify-content-center">
-            <img src="../assets/woman.png" width="50%" height="100%" class ="theme-icon">
-        </div> 
-        <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
-            <h2>${data[0].name}</h2>
-            <h5>${data[0].department}</h5>
-            <button class=" btn btn-custom w-50">View Details</button>
-        </div>
-
-        `;
-        mentorDetailsCointainer.appendChild(div);
-        }
-
-    }
-    catch(error)
-    {
-        toastr.error(error)
-    }
-}
-
 async function fetchCourseList() {
 
     currentTab = "CourseList";
@@ -336,27 +333,11 @@ async function refreshTab() {
 }
 
 
-document.getElementById("logoutbtn").addEventListener('click',async function(){
+document.getElementById("UserDetailbtn").addEventListener('click',async function(){
 
     try{
-
-        const result = await Swal.fire({
-            title : "Do you want to LOGOUT?",
-            icon: "question",
-            showCancelButton : true,
-            confirmButtonText : "Yes,Logout!",
-            cancelButtonText : "No"
-        })
-
-        if(!result.isConfirmed)
-        {
-            return;
-        }
-
-        localStorage.clear();
-        window.location.replace('Home.html');
-
-
+        window.location.replace('Details.html');
+        toastr.success("Redirecting to User Details Page...")
     }
     catch(error)
     {
