@@ -15,6 +15,7 @@ $("#theme_btn").on('click',function()
 const MentorAPI = "http://localhost:3000/Mentor";
 const StudentsAPI = "http://localhost:3000/Students";
 const CoursesAPI = "http://localhost:3000/Courses";
+const CoursesEndrolled = "http://localhost:3000/CoursesEndrolled";
 
 const currentUser = localStorage.getItem("MentorEmail"); 
 let currentTab = "Dashboard";
@@ -302,7 +303,6 @@ async function restoreCourse(id) {
 
 const numofCources =document.getElementById("numofCources");
 const numofStudents =document.getElementById("numofStudents");
-const numofActiveStudents =document.getElementById("numofActiveStudents");
 
 async function fetchCount()
 {
@@ -508,13 +508,20 @@ async function fetchStudentList() {
         `
         <div class="card card-custom shadow rounded-4 h-100 border-0">
             <div class="card-body">
-                <h3 class="fw-bold mb-3">👤 ${element.name}</h3>
-                <p class="mb-2"><strong>🆔 Roll No:</strong> ${element.rollnum}</p>
+                <div class="row">
+                    <div class = "col-11">
+                        <h3 class="fw-bold mb-3">👤 ${element.name}</h3>
+                        <p class="mb-2"><strong>🆔 Roll No:</strong> ${element.rollnum}</p>
 
-                <p class="mb-2"><strong>📧 Email:</strong> ${element.email}</p>
-                <p class="mb-2"> <strong>⚧ Gender:</strong> ${element.gender}</p>
-                <p class="mb-0"><strong>🏫 Department:</strong> ${element.department}</p>
-            </div>
+                        <p class="mb-2"><strong>📧 Email:</strong> ${element.email}</p>
+                        <p class="mb-2"> <strong>⚧ Gender:</strong> ${element.gender}</p>
+                        <p class="mb-0"><strong>🏫 Department:</strong> ${element.department}</p>
+                    </div>
+                    <div class = "col-1 d-flex align-items-end">
+                        <button class ="btn-custom" data-bs-toggle = "modal" data-bs-target="#StudentReportModal" onclick = "studentReport('${element.rollnum}')">-></button>
+                    </div>    
+                </div>      
+            </div>  
         </div>
         `;
         console.log(element.title);
@@ -616,3 +623,163 @@ async function filterCourses() {
         toastr.error(error);
     }
 }
+
+async function studentReport(id) {
+
+    try
+    {
+        const response = await fetch(`${CoursesEndrolled}?studentRollnum=${id}`);
+        const data = await response.json();
+
+        const CompletedTaskresponse = await fetch(`${CoursesEndrolled}?studentRollnum=${id}&status=Completed`);
+        const CompletedTaskData = await CompletedTaskresponse.json();
+
+        const StudentReportModalContainer = document.getElementById("StudentReportModalContainer");
+
+        StudentReportModalContainer.innerHTML = ``;
+
+        const divforCount = document.createElement("div");
+        divforCount.classList.add("row")
+        divforCount.innerHTML = 
+        `
+                <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4>Number of Courses Enrolled</h4>
+                                <h4>${data.length}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h4>Number of Courses Completed</h4>
+                                <h4>${CompletedTaskData.length}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>Enrolled Courses</h3>
+
+        `;
+        StudentReportModalContainer.appendChild(divforCount)
+
+        
+        if(data.length == 0)
+        {
+            StudentReportModalContainer.innerHTML =   `<h3>No Courses Enrolled Yet</h3>`;
+        }
+
+
+        data.forEach(element => {
+            const div = document.createElement('div');
+            div.classList.add("row","g-4","p-2")
+            div.innerHTML = `
+                <div class="card card-custom shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h4 class="fw-bold mb-1">📚 ${element.courseTitle}</h4>
+                                <small class="text-muted">
+                                    🕒 ${element.courseDuration} Months
+                                </small>
+                            </div>
+                            <span class="badge bg-primary fs-6">
+                                ${element.status}
+                            </span>
+                        </div>
+                        <hr>
+                        <p class="mb-2">
+                            🏢 <strong>Department:</strong>
+                            ${element.studentDepartment}
+                        </p>
+                        <p class="mb-2">
+                            📅 <strong>Start Date:</strong>
+                            ${element.startDate}
+                        </p>
+                        <p class="text-secondary">
+                            ${element.courseDescription}
+                        </p>
+                    </div>
+            `;
+            StudentReportModalContainer.appendChild(div)
+        }); 
+        
+        if(data.length != 0)
+        {
+        const h3EL = document.createElement('h3');
+
+        h3EL.innerHTML = `<h3 class = "mt-3">Completed Courses</h3>`;
+        StudentReportModalContainer.appendChild(h3EL);
+        }
+
+        CompletedTaskData.forEach(element => {
+            const div = document.createElement('div');
+            div.classList.add("row","g-4","p-2")
+            div.innerHTML = `
+                <div class="card card-custom shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h4 class="fw-bold mb-1">📚 ${element.courseTitle}</h4>
+                                <small class="text-muted">
+                                    🕒 ${element.courseDuration} Months
+                                </small>
+                            </div>
+                            <span class="badge bg-primary fs-6">
+                                ${element.status}
+                            </span>
+                        </div>
+                        <hr>
+                        <p class="mb-2">
+                            🏢 <strong>Department:</strong>
+                            ${element.studentDepartment}
+                        </p>
+                        <p class="mb-2">
+                            📅 <strong>Start Date:</strong>
+                            ${element.startDate}
+                        </p>
+                        <p class="text-secondary">
+                            ${element.courseDescription}
+                        </p>
+                    </div>
+            `;
+            StudentReportModalContainer.appendChild(div)
+        }); 
+
+    }
+    catch(error)
+    {
+        toastr.error(error);
+    }
+
+}
+
+
+document.getElementById("logoutbtn").addEventListener('click',async function(){
+
+    try{
+
+        const result = await Swal.fire({
+            title : "Do you want to LOGOUT?",
+            icon: "question",
+            showCancelButton : true,
+            confirmButtonText : "Yes,Logout!",
+            cancelButtonText : "No"
+        })
+
+        if(!result.isConfirmed)
+        {
+            return;
+        }
+
+        localStorage.clear();
+        window.location.replace('Home.html');
+
+
+    }
+    catch(error)
+    {
+        toastr.error(error)
+    }
+
+})

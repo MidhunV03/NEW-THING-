@@ -29,6 +29,16 @@
       "role": "Student",
       "department": "IT",
       "id": "8qRIQYGaUUM"
+    },
+    {
+      "rollnum": "24BCS040",
+      "name": "Sweatha",
+      "email": "sweatha@gmail.com",
+      "password": "Sweatha@123",
+      "gender": "Female",
+      "department": "Finance",
+      "role": "Student",
+      "id": "68gYDvTzQX0"
     }
   ],
   "Courses": [
@@ -58,6 +68,50 @@
       "createdby": "mentor1@gmail.com",
       "isDeleted": false,
       "id": "zM7-isDipNs"
+    }
+  ],
+  "CoursesEndrolled": [
+    {
+      "studentRollnum": "23BCS031",
+      "studentName": "Midhun",
+      "studentEmail": "midhun1@gmail.com",
+      "studentDepartment": "IT",
+      "courseId": "zM7-isDipNs",
+      "courseTitle": "BOOTSTRAP CSS",
+      "courseDuration": "1",
+      "courseDescription": "jhewnfl.",
+      "providedBy": "mentor1@gmail.com",
+      "startDate": "17/6/2026",
+      "status": "Completed",
+      "id": "kn3KsHrlDwk"
+    },
+    {
+      "studentRollnum": "23BCS031",
+      "studentName": "Midhun",
+      "studentEmail": "midhun1@gmail.com",
+      "studentDepartment": "IT",
+      "courseId": "LGAYH1N-oKs",
+      "courseTitle": "JIRA",
+      "courseDuration": "2",
+      "courseDescription": "Jira is a Software",
+      "providedBy": "mentor1@gmail.com",
+      "startDate": "17/6/2026",
+      "status": "not yet started",
+      "id": "yvifGevMTeQ"
+    },
+    {
+      "studentRollnum": "24BCS040",
+      "studentName": "Sweatha",
+      "studentEmail": "sweatha@gmail.com",
+      "studentDepartment": "Finance",
+      "courseId": "LGAYH1N-oKs",
+      "courseTitle": "JIRA",
+      "courseDuration": "2",
+      "courseDescription": "Jira is a Software",
+      "providedBy": "mentor1@gmail.com",
+      "startDate": "17/6/2026",
+      "status": "not yet started",
+      "id": "Z9kWyC-4zJU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

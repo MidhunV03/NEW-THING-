@@ -50,14 +50,23 @@ async function loginvalidate(e) {
         data.forEach(element => {
             if(email === element.email && password === element.password && role === element.role)
             {
-                toastr.success("Login Success");
+                toastr.success("Login Success.Redirecting...");
                 if(role === "Mentor")
                 {
                 localStorage.setItem("MentorEmail",email);
+                localStorage.setItem("Role",role);
                 setTimeout(() => {
                     window.location.assign("MentorDashboard.html")
                 }, 3060);
+                }
+                else if (role === "Student")
+                {
+                    localStorage.setItem("StudentEmail",email);
+                    localStorage.setItem("Role",role);
 
+                    setTimeout(() => {
+                        window.location.assign("StudentDashboard.html")
+                    }, 3060);
                 }
             }
             else
@@ -65,7 +74,6 @@ async function loginvalidate(e) {
                 toastr.error("Invalid Credentials")
             }
         });
-
     }
     catch(error)
     {
@@ -103,7 +111,7 @@ signinrollnum.on('input',function(){
         $("#signinrollnumerror").text("")
         $(this).addClass("is-valid")
         $(this).removeClass("is-invalid")
-        localStorage.setItem("name",signinname.val())
+        localStorage.setItem("rollnum",signinrollnum.val())
     }
 });
 
@@ -208,7 +216,6 @@ $("#signinSubmitbtn").on('click',siginvalidation)
 
 $("#signinResetbtn").on('click',function()
 {
-        signinrole.val("") ;
         signinname.val("");
         signinpassword.val(""); 
         signingender.val("");
@@ -220,7 +227,6 @@ async function siginvalidation(e) {
     e.preventDefault();
 
     if(
-        signinrole.val() == "" ||
         signinname.val() == "" ||
         signinemail.val()  == "" ||
         signinpassword.val()  == "" ||
@@ -232,13 +238,13 @@ async function siginvalidation(e) {
         return
     }
 
-
     const user = {
         rollnum : signinrollnum.val(),
         name : signinname.val(),
         email : signinemail.val(),
         password : signinpassword.val(),
         gender : $('input[name="gender"]:checked').val(),
+        role : "Student",
         department : signindepartment.val()
     }
 

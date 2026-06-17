@@ -30,8 +30,9 @@
                     </div>
                 </div>
                 <div class="nav-item">
-                    <div class="nav-link">
-                        <button class="btn border text-light" data-bs-toggle="modal" data-bs-target="#loginmodal">HOME</button>
+                    <div class="nav-link d-flex gap-2">
+                        <button class="btn border text-light">HOME</button>
+                        <button class="btn border bg-danger text-light" id="logoutbtn">LOGOUT</button>
                     </div>
                 </div>
                 <!-- <div class="nav-item">
@@ -197,6 +198,24 @@
         </div>
     </div>
 
+    <div class="modal modal-xl" id="StudentReportModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Student Report</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-cotent">
+                    <div class="modal-body">
+                        <div id="StudentReportModalContainer">
+                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal modal-lg" id="editCourseModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -219,7 +238,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>7
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
