@@ -1,5 +1,5 @@
---CREATE DATABASE CoursePlan
---use CoursePlan
+--CREATE DATABASE CoursePath
+--use CoursePath
 
 CREATE TABLE mentor (
 id int PRIMARY KEY IDENTITY(1,1),
