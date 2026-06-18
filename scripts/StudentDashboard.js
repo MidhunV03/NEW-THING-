@@ -29,8 +29,23 @@ async function fetchCourses() {
     {
         const response = await fetch(`${CoursesAPI}?isDeleted=false`);
         const data = await response.json();
-        
-        const CourseListContainer = document.getElementById("CourseListContainer")
+
+        renderCourse(data);
+
+        fetchCount();
+        fetchMentor();
+    }
+    catch(error)
+    {
+        toastr.error(error)
+    }
+}
+// fetchCourses();
+refreshTab();
+
+async function renderCourse(data) {
+
+    const CourseListContainer = document.getElementById("CourseListContainer")
         CourseListContainer.innerHTML = ""; 
         data.forEach(element => {
         const courseCard = document.createElement('div')
@@ -61,17 +76,34 @@ async function fetchCourses() {
         `;
         CourseListContainer.appendChild(courseCard);
         });
-        fetchCount();
-        fetchMentor();
+    
+}
+document.getElementById("AllCoursebtn").addEventListener('click',function(){
+    fetchCourses()
+})
+
+async function recommendCourses() {
+
+    try
+    {
+       const studentDepartmentFetch = await fetch(`${StudentsAPI}?email=${currentUser}`);
+        const studentDepartmentFetchdata = await studentDepartmentFetch.json();
+        const studentDepartment = studentDepartmentFetchdata[0].department;
+
+        const CourseDetailsFetch = await fetch(`${CoursesAPI}?department=${studentDepartment}`);
+        const CourseDetailsFetchdata = await CourseDetailsFetch.json();
+
+        console.log(studentDepartment);
+        renderCourse(CourseDetailsFetchdata);
+
     }
     catch(error)
     {
         toastr.error(error)
     }
-}
-// fetchCourses();
-refreshTab();
 
+}
+document.getElementById("RecommendedCoursebtn").addEventListener('click',recommendCourses)
 async function fetchMentor() {
 
     const studentDetailsCointainer = document.getElementById("studentDetailsCointainer");
@@ -86,13 +118,16 @@ async function fetchMentor() {
         const div =document.createElement('div');
         div.classList.add('row','g-4')
         div.innerHTML = `
-        <div class="col-6 d-flex justify-content-center">
+        <div class="col-6 d-flex justify-content-center ">
             <img src="../assets/male.png" width="50%" height="100%" class ="theme-icon">
         </div> 
         <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
             <h2>${data[0].name}</h2>
             <h5>${data[0].department}</h5>
-            <button class=" btn btn-custom w-50">View Details</button>
+
+            <button class=" btn btn-custom w-50 UserDetailbtn">
+            View Details
+            </button>
         </div>
 
         `;
@@ -109,7 +144,7 @@ async function fetchMentor() {
         <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
             <h2>${data[0].name}</h2>
             <h5>${data[0].department}</h5>
-            <button class=" btn btn-custom w-50">View Details</button>
+            <button class=" btn btn-custom w-50 UserDetailbtn">View Details</button>
         </div>
 
         `;
@@ -333,15 +368,19 @@ async function refreshTab() {
 }
 
 
-document.getElementById("UserDetailbtn").addEventListener('click',async function(){
-
-    try{
-        window.location.replace('Details.html');
-        toastr.success("Redirecting to User Details Page...")
+document.addEventListener('click',async function(e){
+    if(e.target.classList.contains('UserDetailbtn')) {
+        console.log('hi');
+        
+        try{
+            setTimeout(()=>{
+                window.location.assign('Details.html');
+            },3060)
+            toastr.success("Redirecting to User Details Page...")
+        }
+        catch(error)
+        {
+            toastr.error(error)
+        }
     }
-    catch(error)
-    {
-        toastr.error(error)
-    }
-
-})
+})  

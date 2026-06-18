@@ -17,8 +17,15 @@ const CoursesAPI = "http://localhost:3000/Courses";
 const CoursesEndrolled = "http://localhost:3000/CoursesEndrolled";
 
 const currentUserRole = localStorage.getItem("Role");
-const currentUserEmail = localStorage.getItem("StudentEmail");
-
+let currentUserEmail;
+if(currentUserRole === "Mentor")
+{
+     currentUserEmail = localStorage.getItem("MentorEmail");
+}
+else
+{
+     currentUserEmail = localStorage.getItem("StudentEmail");
+}
 async function fetchDetails() {
     
     console.log(currentUserRole);
@@ -34,6 +41,7 @@ async function fetchDetails() {
         const response = await fetch(`${MentorAPI}?email=${currentUserEmail}`);
         const data = await response.json();
                 
+
             div.innerHTML = `
 <div class="container py-5">
 
@@ -97,8 +105,8 @@ async function fetchDetails() {
 
                     <div class="mt-3">
 
-                        <button class="btn btn-primary px-4">
-                            Edit Profile
+                        <button class="btn btn-danger px-4" onclick="Logoutfn()">
+                            Logout
                         </button>
 
                     </div>
@@ -230,15 +238,32 @@ try
     }
 
     localStorage.clear();
-    window.location.replace("Home.html");
+    window.location.assign("Home.html");
 
 }
 catch(error)
 {
-
+    toastr.error(error)
+}
 }
 
-}
+document.getElementById("homebtn").addEventListener('click',function(){
+
+    console.log("HELLO")
+    console.log(currentUserRole)
+    if(currentUserRole === "Mentor")
+    {
+        window.location.replace("MentorDashboard.html")
+    }
+    else
+    {
+        window.location.replace("StudentDashboard.html")
+    }
+
+})
+
+
+
 
 // document.addEventListener('DOMContentLoaded', () => {
 //     myFunction();

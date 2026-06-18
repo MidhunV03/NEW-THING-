@@ -20,6 +20,55 @@ const loginrole = $('#loginrole');
 const loginbtn = $('#loginbtn');
 const loginresetbtn = $('#loginresetbtn');
 
+loginemail.on('input',function()
+{
+    if(!email_pattern.test(loginemail.val().trim()))
+    {
+        $("#loginemailerror").text("Invalid Email");
+        $(this).addClass("is-invalid");
+        $(this).removeClass("is-valid");
+    }
+    else
+    {
+        $("#loginemailerror").text("")
+        $(this).addClass("is-valid")
+        $(this).removeClass("is-invalid")
+        localStorage.setItem("rollnum",signinrollnum.val())
+    }
+})
+loginpassword.on('input',function()
+{
+    if(!password_pattern.test(loginpassword.val().trim()))
+    {
+        $("#loginemailerror").text("Invalid Email");
+        $(this).addClass("is-invalid");
+        $(this).removeClass("is-valid");
+    }
+    else
+    {
+        $("#loginemailerror").text("")
+        $(this).addClass("is-valid")
+        $(this).removeClass("is-invalid")
+        localStorage.setItem("rollnum",signinrollnum.val())
+    }
+})
+loginrole.on('change',function()
+{
+    if((loginrole).val() ==  " ")
+    {
+        $("#loginroleerror").text("Please Select Role");  
+        $(this).addClass("is-invalid");
+        $(this).removeClass("is-valid");
+    }
+    else
+    {
+        $("#loginroleerror").text("");  
+        $(this).removeClass("is-invalid");
+        $(this).addClass("is-valid");
+    }
+}
+);
+
 toastr.options = {
     "closeButton": true,
     "progressBar": true,
@@ -29,7 +78,16 @@ toastr.options = {
 
 async function loginvalidate(e) {
     e.preventDefault();
-    
+
+
+    function removeSpinner(){
+        document.querySelector('.submit-text').classList.remove('d-none')
+    document.querySelector('.submitSpinner').classList.add('d-none')
+    }
+
+    document.querySelector('.submit-text').classList.add('d-none')
+    document.querySelector('.submitSpinner').classList.remove('d-none')
+
     const email = loginemail.val().trim();
     const password = loginpassword.val().trim();
     const role = loginrole.val().trim();
@@ -37,6 +95,7 @@ async function loginvalidate(e) {
     if(email == "" || password == "" || role == "" )
     {
         toastr.error("Please fill out all fields.", "Login Failed");
+        removeSpinner()
         return;    
     }
 
@@ -46,37 +105,40 @@ async function loginvalidate(e) {
     {
         const response = await fetch(targetEndpoint);
         const data = await response.json();
-
-        data.forEach(element => {
-            if(email === element.email && password === element.password && role === element.role)
-            {
-                toastr.success("Login Success.Redirecting...");
-                if(role === "Mentor")
-                {
-                localStorage.setItem("MentorEmail",email);
-                localStorage.setItem("Role",role);
-                setTimeout(() => {
-                    window.location.assign("MentorDashboard.html")
-                }, 3060);
+        const user = data.find(element =>
+            element.email === email &&
+            element.password === password &&
+            element.role === role
+        );                   
+        
+        if (user) {
+                if (role === "Mentor") {
+                    localStorage.setItem("MentorEmail", email);
+                } else {
+                    localStorage.setItem("StudentEmail", email);
                 }
-            else if(role === "Student")
-            {
-                localStorage.setItem("StudentEmail",email);
-                localStorage.setItem("Role",role);
+
+                localStorage.setItem("Role", role);
+
+                toastr.success("Login Success. Redirecting...");
 
                 setTimeout(() => {
-                    window.location.assign("StudentDashboard.html")
-                }, 3060);
-            }
-            }
-            else
-            {
-                toastr.error("Invalid Credentials")
-            }
-        });
-    }
+                    if (role === "Mentor") {
+                        window.location.assign("MentorDashboard.html");
+                    } else {
+                        window.location.assign("StudentDashboard.html");
+                    }
+                    removeSpinner()
+                }, 3000);
+
+            } else {
+                removeSpinner()
+                toastr.error("Invalid Credentials");
+
+            }    }
     catch(error)
     {
+        removeSpinner()
         toastr.error("Data error")
     }
 
@@ -94,9 +156,9 @@ const signindepartment = $('#signindepartment');
 
 console.log(signinname)
 
-const rollnum_pattern = /^2[0-6]BCS\d{3}$/i;
+const rollnum_pattern = /^2[0-6]B..\d{3}$/i;
 const name_pattern = /^[A-Za-z ]{3,}$/;
-const email_pattern = /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+const email_pattern = /^[a-z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
 const password_pattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%&.])[A-Za-z\d@#$%&.]{6,15}$/;
 
 signinrollnum.on('input',function(){

@@ -84,8 +84,6 @@ const addCourseDuration = document.getElementById("addCourseDuration");
 const addCourseDesc = document.getElementById("addCourseDesc");
 const addCoursebtn = document.getElementById("addCoursebtn")
 
-
-
 async function addCourse()
 {
     let isDeleted = false;
@@ -96,9 +94,24 @@ async function addCourse()
         return;
     }
 
+    const prevCoursesresponse = await fetch(`${CoursesAPI}?isDeleted=false`);
+    const prevCoursesdata = await prevCoursesresponse.json();
+    console.log(prevCoursesdata)
+
     const response = await fetch(`${MentorAPI}?email=${currentUser}`);
     const data = await response.json();
     const department = data[0].department;
+
+    const duplicateCourses = prevCoursesdata.find(element =>
+    element.title == addCourseTitle.value && element.department == department
+    )
+
+    if(duplicateCourses)
+    {
+        toastr.error("Course already Exists");
+        return;
+    }
+
 
     // const select = document.getElementById("addCourseDepartment");
 
@@ -344,7 +357,7 @@ async function fetchMentor() {
         <div class="col-6 d-flex flex-column justify-content-start gap-2 ">
             <h2>${data[0].name}</h2>
             <h5>${data[0].department}</h5>
-            <button class=" btn btn-custom w-50">View Details</button>
+            <button class=" btn btn-custom w-50" onclick = "UserDetailPage()">View Details</button>
         </div>
 
         `;
@@ -440,6 +453,7 @@ let updatedCourseId;
 async function openEditCourseModel(id,title,duration,department,description) {
     
     updatedCourseId = id;
+
 
     const editCourseTitle = document.getElementById("editCourseTitle");
     const editCourseDuration = document.getElementById("editCourseDuration");
@@ -619,6 +633,11 @@ async function filterCourses() {
             CourseListContainer.appendChild(courseCard);
         });
 
+        if(filterVal === "all")
+        {
+            fetchCourses();
+        }
+
     } catch (error) {
         toastr.error(error);
     }
@@ -754,32 +773,26 @@ async function studentReport(id) {
 
 }
 
+// document.addEventListener('click',async function UserDetailPage(e){
+//     if(e.target.classList.contains('UserDetailbtn')) {
 
-document.getElementById("logoutbtn").addEventListener('click',async function(){
+//     }
+// })
 
-    try{
+const buttons = document.querySelectorAll('.UserDetailbtn');
 
-        const result = await Swal.fire({
-            title : "Do you want to LOGOUT?",
-            icon: "question",
-            showCancelButton : true,
-            confirmButtonText : "Yes,Logout!",
-            cancelButtonText : "No"
-        })
-
-        if(!result.isConfirmed)
-        {
-            return;
+buttons.forEach(button => {
+    button.addEventListener('click', UserDetailPage);
+});
+async function UserDetailPage() {
+        try{
+            setTimeout(()=>{
+                window.location.assign('Details.html');
+            },3060)
+            toastr.success("Redirecting to User Details Page...");
         }
-
-        localStorage.clear();
-        window.location.replace('Home.html');
-
-
-    }
-    catch(error)
-    {
-        toastr.error(error)
-    }
-
-})
+        catch(error)
+        {
+            toastr.error(error);
+        }
+}

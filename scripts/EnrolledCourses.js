@@ -19,6 +19,9 @@ const CoursesEndrolled = "http://localhost:3000/CoursesEndrolled";
 const currentUser = localStorage.getItem("StudentEmail"); 
 let currentTab = "Dashboard";
 
+
+
+
 async function fetchCourses() {
     // currentTab = "Dashboard";
     try
@@ -308,3 +311,18 @@ async function refreshTab() {
 //         fetchCourses();
 //     }
 }
+
+document.getElementById("UserDetailbtn").addEventListener('click',async function(){
+
+    try{
+        setTimeout(()=>{
+             window.location.replace('Details.html');
+        },3060)
+        toastr.success("Redirecting to User Details Page...")
+    }
+    catch(error)
+    {
+        toastr.error(error)
+    }
+
+})

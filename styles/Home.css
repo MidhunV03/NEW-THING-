@@ -10,7 +10,7 @@
 }
 
 .dark-theme{
-    --bg-color: #121212;
+    --bg-color: #121212ca;
     --text-color: #f8f9fa;
     --primary-color: #9b7ede;
     --secondary-color: #2d1b4e;
@@ -20,8 +20,9 @@
     --border-color: #444444;
 }
 body {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 400; 
+background: var(--bg-color, #ffffff); /* Added a fallback color just in case */
+font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 400;/* Adjust weight as needed between 100 and 900 */
 }
 *{
     box-sizing: border-box;
@@ -38,10 +39,10 @@ body{
 .bg_col{
     background-color: var(--secondary-color);
 }
-
+/* 
 .body_col{
-    background: var(--bg-color);
-}
+    
+} */
 
 .nav_bg_color{
     background-color: var(--navbar-color);
@@ -99,4 +100,10 @@ body{
 .status-select.show{
     width:180px;
     opacity:1;
+}
+
+@media screen and (and-width: 768px) {
+  #mentorDetailsCard {
+    width: 90%; /* Leaves a nice little breathing room on the edges */
+  }
 }
